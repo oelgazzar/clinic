@@ -1,11 +1,19 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Appointments</h1>
+    <form method="get" action="">
+        <input type="search" name="q" placeholder="Search by patient name" value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+    <p>Filter By Date:</p>
+    <form method="get" action="">
+        <label for="from_date">From:</label>
+        <input type="date" id="from_date" name="from_date" value="{{ request.GET.from_date }}">
+        <label for="to_date">To:</label>
+        <input type="date" id="to_date" name="to_date" value="{{ request.GET.to_date }}">
+        <button type="submit">Filter</button>
+    </form>
     <ul>
         {% for appointment in appointments %}
             <li><a href="{% url 'appointment_details' appointment.id %}">{{ appointment.date }} - {{ appointment.patient.name }}</a></li>
@@ -14,5 +22,4 @@
         {% endfor %}
     </ul>
     <a href="{% url 'new_appointment' %}">New Appointment</a>
-</body>
-</html>
+{% endblock %}

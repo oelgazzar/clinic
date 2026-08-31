@@ -1,10 +1,6 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Appointment</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>{{ button_text }}</h1>
     <form method="post">
         {% csrf_token %}
@@ -30,5 +26,4 @@
         <br>
         <button type="submit">{{ button_text }}</button>
     </form>
-</body>
-</html>
+{% endblock %}

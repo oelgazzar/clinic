@@ -1,11 +1,7 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1><a href="{% url 'patient_list' %}">Patients</a></h1>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Patients</h1>
     <form method="get" action="">
         <input type="search" name="q" placeholder="Search patients..." value="{{ request.GET.q }}">
         <button type="submit">Search</button>
@@ -18,5 +14,4 @@
         {% endfor %}
     </ul>
     <a href="{% url 'new_patient' %}">Create New Patient</a>
-</body>
-</html>
+{% endblock %}

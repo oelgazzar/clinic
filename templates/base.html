@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Clinic{% endblock %}</title>
+</head>
+<body>
+
+<header>
+    <h1>Clinic Management System</h1>
+
+    <nav>
+        <a href="{% url 'patient_list' %}">Patients</a>
+        <a href="{% url 'appointment_list' %}">Appointments</a>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+    </nav>
+</header>
+
+<hr>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <p>Total Patients: <a href="{% url 'patient_list' %}">{{ total_patients }}</a></p>
+    <p>Total Appointments: <a href="{% url 'appointment_list' %}">{{ total_appointments }}</a></p>
+    <p>Upcoming Appointments: <a href="{% url 'appointment_list' %}?from_date={% now 'Y-m-d'%}">{{ upcoming_appointments }}</a></p>
+{% endblock %}

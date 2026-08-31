@@ -4,7 +4,21 @@ from .models import Appointment
 from patients.models import Patient
 
 def appointment_list(request):
-    appointments = Appointment.objects.all()
+    q = request.GET.get('q')
+    from_date = request.GET.get('from_date')
+    to_date = request.GET.get('to_date')
+
+    if q:
+        appointments = Appointment.objects.filter(patient__name__icontains=q)
+    else:
+        appointments = Appointment.objects.all()
+
+    if from_date:
+        appointments = appointments.filter(date__gte=from_date)
+
+    if to_date:
+        appointments = appointments.filter(date__lte=to_date)
+
     return render(request, 'appointment_list.html', {'appointments': appointments})
 
 def new_appointment(request):

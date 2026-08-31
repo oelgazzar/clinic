@@ -1,27 +1,19 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Create New Patient</h1>
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
     <form method="post">
         {% csrf_token %}
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="{{ name }}">
+        <input type="text" id="name" name="name" value="{{ patient.name }}">
         <br>
         <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" value="{{ phone }}">
+        <input type="text" id="phone" name="phone" value="{{ patient.phone }}">
         <br>
         <label for="date_of_birth">Date of Birth:</label>
-        <input type="date" id="date_of_birth" name="date_of_birth" value="{{ date_of_birth }}">
+        <input type="date" id="date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth|date:'Y-m-d' }}">
         <br>
         <button type="submit">{{ submit_button_text }}</button>
     </form>
     <a href="{% url 'patient_list' %}">Back to Patients List</a>
-</body>
-</html>
+{% endblock %}

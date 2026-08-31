@@ -1,10 +1,6 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Patient Detail</h1>
     <p>Name: {{ patient.name }}</p>
     <p>Phone: {{ patient.phone }}</p>
@@ -15,12 +11,13 @@
             <li>
                 <a href="{% url 'appointment_details' appointment.id %}">
                     {{ appointment.date }} at {{ appointment.time }}
-                </a> - {{ appointment.reason }}
+                </a>
+                <br/>
+                - {{ appointment.reason }}
             </li>
         {% endfor %}
     </ul>
     <a href="{% url 'edit_patient' patient.id %}">Edit Patient</a>
     <a href="{% url 'delete_patient' patient.id %}">Delete Patient</a>
     <a href="{% url 'patient_list' %}">Back to Patients List</a>
-</body>
-</html>
+{% endblock %}
