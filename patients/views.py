@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Patient
 
@@ -20,6 +20,7 @@ def new_patient(request):
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         date_of_birth = request.POST.get('date_of_birth')
+        print(date_of_birth)
         ctx.update({'name': name, 'phone': phone, 'date_of_birth': date_of_birth})
 
         if not name or not phone or not date_of_birth:
@@ -31,24 +32,18 @@ def new_patient(request):
     return render(request, 'patient_form.html', ctx)
 
 def patient_details(request, patient_id):
-    try:
-        patient = Patient.objects.get(id=patient_id)
-    except Patient.DoesNotExist:
-        return render(request, '404.html', status=404)
+    patient = get_object_or_404(Patient, id=patient_id)
     return render(request, 'patient_details.html', {'patient': patient})
 
 
 def edit_patient(request, patient_id):
-    try:
-        patient = Patient.objects.get(id=patient_id)
-    except Patient.DoesNotExist:
-        return render(request, '404.html', status=404)
+    patient = get_object_or_404(Patient, id=patient_id)
 
     ctx = {
         'error': None,
         'name': patient.name,
         'phone': patient.phone,
-        'date_of_birth': patient.date_of_birth,
+        'date_of_birth': patient.date_of_birth.strftime('%Y-%m-%d'),
         'submit_button_text': 'Update Patient'
     }
 
@@ -71,10 +66,7 @@ def edit_patient(request, patient_id):
     return render(request, 'patient_form.html', ctx)
 
 def delete_patient(request, patient_id):
-    try:
-        patient = Patient.objects.get(id=patient_id)
-    except Patient.DoesNotExist:
-        return render(request, '404.html', status=404)
+    patient = get_object_or_404(Patient, id=patient_id)
 
     if request.method == 'POST':
         patient.delete()
