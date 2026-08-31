@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Appointment Details</h1>
+    <p><strong>Patient:</strong> <a href="{% url 'patient_details' appointment.patient.id %}">{{ appointment.patient.name }}</a></p>
+    <p><strong>Date:</strong> {{ appointment.date }}</p>
+    <p><strong>Time:</strong> {{ appointment.time }}</p>
+    <p><strong>Reason:</strong> {{ appointment.reason }}</p>
+    <p><strong>Notes:</strong> {{ appointment.notes }}</p>
+    <a href="{% url 'edit_appointment' appointment.id %}">Edit Appointment</a>
+    <a href="{% url 'delete_appointment' appointment.id %}">Delete Appointment</a>
+    <a href="{% url 'appointment_list' %}">Back to Appointments</a>
+</body>
+</html>

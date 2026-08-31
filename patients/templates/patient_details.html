@@ -9,6 +9,16 @@
     <p>Name: {{ patient.name }}</p>
     <p>Phone: {{ patient.phone }}</p>
     <p>Date of Birth: {{ patient.date_of_birth }}</p>
+    <h2>Appointments</h2>
+    <ul>
+        {% for appointment in appointments %}
+            <li>
+                <a href="{% url 'appointment_details' appointment.id %}">
+                    {{ appointment.date }} at {{ appointment.time }}
+                </a> - {{ appointment.reason }}
+            </li>
+        {% endfor %}
+    </ul>
     <a href="{% url 'edit_patient' patient.id %}">Edit Patient</a>
     <a href="{% url 'delete_patient' patient.id %}">Delete Patient</a>
     <a href="{% url 'patient_list' %}">Back to Patients List</a>

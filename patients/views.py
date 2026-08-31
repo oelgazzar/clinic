@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Patient
+from appointments.models import Appointment
 
 def patient_list(request):
     q = request.GET.get('q')
@@ -33,7 +34,8 @@ def new_patient(request):
 
 def patient_details(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
-    return render(request, 'patient_details.html', {'patient': patient})
+    appointments = Appointment.objects.filter(patient=patient)
+    return render(request, 'patient_details.html', {'patient': patient, 'appointments': appointments})
 
 
 def edit_patient(request, patient_id):
