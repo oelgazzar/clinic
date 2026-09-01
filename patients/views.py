@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Patient
-from appointments.models import Appointment
+from .forms import PatientForm
 
 def patient_list(request):
     q = request.GET.get('q')
@@ -12,60 +12,30 @@ def patient_list(request):
     return render(request, 'patient_list.html', {'patients': patients})
 
 def new_patient(request):
-    ctx = {
-        'error': None,
-        'submit_button_text': 'Create Patient'
-    }
-
     if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        date_of_birth = request.POST.get('date_of_birth')
-        print(date_of_birth)
-        ctx.update({'name': name, 'phone': phone, 'date_of_birth': date_of_birth})
-
-        if not name or not phone or not date_of_birth:
-            ctx.update({'error': "All fields are required."})
-        else:
-            Patient.objects.create(name=name, phone=phone, date_of_birth=date_of_birth)
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('patient_list')
-
-    return render(request, 'patient_form.html', ctx)
+    else:
+       form = PatientForm()
+    return render(request, 'patient_form.html',{'form': form, 'submit_button_text': 'Create Patient'})
 
 def patient_details(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
-    appointments = Appointment.objects.filter(patient=patient)
-    return render(request, 'patient_details.html', {'patient': patient, 'appointments': appointments})
+    return render(request, 'patient_details.html', {'patient': patient})
 
 
 def edit_patient(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
 
-    ctx = {
-        'error': None,
-        'name': patient.name,
-        'phone': patient.phone,
-        'date_of_birth': patient.date_of_birth.strftime('%Y-%m-%d'),
-        'submit_button_text': 'Update Patient'
-    }
-
-    # Handle form submission
     if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        date_of_birth = request.POST.get('date_of_birth')
-        ctx.update({'name': name, 'phone': phone, 'date_of_birth': date_of_birth})
-
-        if not name or not phone or not date_of_birth:
-            ctx.update({'error': "All fields are required."})
-        else:
-            patient.name = name
-            patient.phone = phone
-            patient.date_of_birth = date_of_birth
-            patient.save()
+        form = PatientForm(request.POST, instance=patient)
+        if form.is_valid():
+            form.save()
             return redirect('patient_details', patient_id=patient.id)
-
-    return render(request, 'patient_form.html', ctx)
+        
+    return render(request, 'patient_form.html', {'form': form, 'submit_button_text': 'Update Patient'})
 
 def delete_patient(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)

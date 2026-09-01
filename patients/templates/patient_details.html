@@ -7,7 +7,7 @@
     <p>Date of Birth: {{ patient.date_of_birth }}</p>
     <h2>Appointments</h2>
     <ul>
-        {% for appointment in appointments %}
+        {% for appointment in patient.appointments.all %}
             <li>
                 <a href="{% url 'appointment_details' appointment.id %}">
                     {{ appointment.date }} at {{ appointment.time }}

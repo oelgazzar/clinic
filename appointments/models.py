@@ -3,7 +3,7 @@ from django.db import models
 from patients.models import Patient
 
 class Appointment(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='appointments')
     date = models.DateField()
     time = models.TimeField()
     reason = models.CharField(max_length=255)

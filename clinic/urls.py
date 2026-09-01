@@ -8,6 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('patients/', include('patients.urls')),
     path('appointments/', include('appointments.urls')),
-    path('', lambda _: redirect('appointment_list')),
+    path('', lambda _: redirect('dashboard')),
     path('dashboard/', views.dashboard, name='dashboard'),
 ]
