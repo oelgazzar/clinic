@@ -20,7 +20,7 @@ def appointment_list(request):
     if to_date:
         appointments = appointments.filter(date__lte=to_date)
 
-    return render(request, 'appointment_list.html', {'appointments': appointments})
+    return render(request, 'appointment_list.html', {'appointments': appointments.order_by('date', 'time')})
 
 @login_required
 def new_appointment(request):

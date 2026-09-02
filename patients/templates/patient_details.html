@@ -42,7 +42,7 @@
             <th>Date</th>
             <th>Time</th>
             <th>Reason</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +51,7 @@
                 <td>{{ appointment.date }}</td>
                 <td>{{ appointment.time }}</td>
                 <td>{{ appointment.reason }}</td>
-                <td><a href="{% url 'appointment_details' appointment.id %}" class="btn btn-sm btn-success">View</a></td>
+                <td><a href="{% url 'appointment_details' appointment.id %}" class="btn btn-sm"><i class="bi bi-eye fs-5"></i></a></td>
             </tr>
         {% empty %}
             <tr>

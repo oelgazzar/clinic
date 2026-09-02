@@ -38,9 +38,9 @@
                     <td>{{ patient.age }}</td>
                     <td>{{ patient.phone }}</td>
                     <td>
-                        <a class="btn btn-sm btn-success" href="{% url 'patient_details' patient.id %}">View</a>
-                        <a class="btn btn-sm btn-secondary" href="{% url 'edit_patient' patient.id %}">Edit</a>
-                        <a class="btn btn-sm btn-danger" href="{% url 'delete_patient' patient.id %}">Delete</a>
+                         <a class="btn btn-sm fs-5" href="{% url 'patient_details' patient.id %}" title="View Details"><i class="bi bi-eye"></i></a>
+                        <a class="btn btn-sm fs-5" href="{% url 'edit_patient' patient.id %}" title="Edit"><i class="bi bi-pencil"></i></a>
+                        <a class="btn btn-sm fs-5" href="{% url 'delete_patient' patient.id %}" title="Delete"><i class="bi bi-trash"></i></a>
                     </td>
                 </tr>
             {% empty %}

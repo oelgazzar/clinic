@@ -9,7 +9,7 @@ from appointments.models import Appointment
 def dashboard(request):
      total_patients = Patient.objects.count()
      total_appointments = Appointment.objects.count()
-     upcoming_appointments = Appointment.objects.filter(date__gte=timezone.now())
+     upcoming_appointments = Appointment.objects.filter(date__gte=timezone.now()).exclude(status='canceled').order_by('date', 'time')
      return render(request, 'dashboard.html', {
          'total_patients': total_patients,
          'total_appointments': total_appointments,
