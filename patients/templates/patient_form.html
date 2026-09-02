@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-   <form method="post">
+    <h2>New Patient</h2>
+   <form class="w-25" method="post" novalidate>
         {% csrf_token %}
-        {{form }}
-        <button type="submit">{{ submit_button_text }}</button>
+        {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="row gx-2">
+            <button class="btn btn-primary btn-sm col me-1" type="submit">Save</button>
+            <a class="btn btn-outline-secondary btn-sm col ms-1" href="{% url 'patient_list' %}">Cancel</a>
+        </div>
     </form>
-    <a href="{% url 'patient_list' %}">Back to Patients List</a>
 {% endblock %}

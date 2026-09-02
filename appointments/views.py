@@ -28,6 +28,10 @@ def new_appointment(request):
             return redirect('appointment_list')
     else:
         form = AppointmentForm()
+        patient_id = request.GET.get('patient_id')
+        if patient_id:
+            patient = Patient.objects.get(id=patient_id)
+            form.fields['patient'].initial = patient
     return render(request, 'appointment_form.html', {'form': form, 'button_text': 'Create Appointment'})
 
 def appointment_details(request, appointment_id):

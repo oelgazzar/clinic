@@ -19,7 +19,7 @@ def new_patient(request):
             return redirect('patient_list')
     else:
        form = PatientForm()
-    return render(request, 'patient_form.html',{'form': form, 'submit_button_text': 'Create Patient'})
+    return render(request, 'patient_form.html',{'form': form})
 
 def patient_details(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
@@ -34,8 +34,10 @@ def edit_patient(request, patient_id):
         if form.is_valid():
             form.save()
             return redirect('patient_details', patient_id=patient.id)
+    else:
+        form = PatientForm(instance=patient)
         
-    return render(request, 'patient_form.html', {'form': form, 'submit_button_text': 'Update Patient'})
+    return render(request, 'patient_form.html', {'form': form})
 
 def delete_patient(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)

@@ -1,23 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Patient Detail</h1>
-    <p>Name: {{ patient.name }}</p>
-    <p>Phone: {{ patient.phone }}</p>
-    <p>Date of Birth: {{ patient.date_of_birth }}</p>
-    <h2>Appointments</h2>
-    <ul>
+<div class="d-flex justify-content-between align-items-center  mb-3">
+    <h2 class="mb-3">{{ patient.name }}</h2>
+    <div>
+        <a href="{% url 'edit_patient' patient.id %}"
+            class="btn btn-outline-primary">
+            Edit
+        </a>
+
+        <a href="{% url 'delete_patient' patient.id %}"
+            class="btn btn-outline-danger">
+            Delete
+        </a>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Patient Information</h5>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <strong>Date of Birth</strong>
+            <div>{{ patient.date_of_birth }}</div>
+        </div>
+        <div class="">
+            <strong>Age</strong>
+            <div>{{ patient.age }}</div>
+        </div>
+        <!-- other fields -->
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mb-2">
+    <h3>Appointments</h3>
+    <a class="btn btn-primary btn-sm" href="{% url 'new_appointment' %}?patient_id={{ patient.id }}">New Appointment <span class="fs-4">+</span></a>
+</div>
+<table class="table">
+    <thead>
+        <tr class="table-primary">
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
         {% for appointment in patient.appointments.all %}
-            <li>
-                <a href="{% url 'appointment_details' appointment.id %}">
-                    {{ appointment.date }} at {{ appointment.time }}
-                </a>
-                <br/>
-                - {{ appointment.reason }}
-            </li>
+            <tr>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>
+                <td>{{ appointment.reason }}</td>
+                <td><a href="{% url 'appointment_details' appointment.id %}" class="btn btn-sm btn-success">View</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No appointments found.</td>
+            </tr>
         {% endfor %}
-    </ul>
-    <a href="{% url 'edit_patient' patient.id %}">Edit Patient</a>
-    <a href="{% url 'delete_patient' patient.id %}">Delete Patient</a>
-    <a href="{% url 'patient_list' %}">Back to Patients List</a>
+    </tbody>
+</table>
 {% endblock %}
