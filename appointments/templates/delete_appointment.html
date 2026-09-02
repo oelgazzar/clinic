@@ -10,7 +10,7 @@
     <p><strong>Notes:</strong> {{ appointment.notes }}</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Yes, Delete</button>
-        <a href="{% url 'appointment_details' appointment.id %}">Cancel</a>
+        <button class="btn btn-danger btn-sm" type="submit">Yes, Delete</button>
+        <a class="btn btn-outline-secondary btn-sm" href="{% url 'appointment_details' appointment.id %}">Cancel</a>
     </form>
 {% endblock %}

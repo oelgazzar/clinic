@@ -1,29 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Header -->
 <div class="d-flex justify-content-between align-items-center">
     <h2>Appointments</h2>
-    <a class="btn btn-primary btn-sm" href="{% url 'new_appointment' %}">New Appointment</a>
+    <a class="btn btn-primary btn-sm" href="{% url 'new_appointment' %}">New Appointment <span class="fs-5 lh-1">+</span></a>
 </div>
-<form class="w-25">
-    <div class="input-group">
-        <input class="form-control" type="search" name="q" placeholder="Search by patient name" value="{{ request.GET.q }}">
-        <button class="btn btn-primary btn-sm" type="submit">Search</button>
-    </div>
-</form>
-<p>Filter By Date:</p>
-<form method="get" action="">
-    <label for="from_date">From:</label>
-    <input type="date" id="from_date" name="from_date" value="{{ request.GET.from_date }}">
-    <label for="to_date">To:</label>
-    <input type="date" id="to_date" name="to_date" value="{{ request.GET.to_date }}">
-    <button type="submit">Filter</button>
-</form>
-<ul>
-    {% for appointment in appointments %}
-        <li><a href="{% url 'appointment_details' appointment.id %}">{{ appointment.date }} - {{ appointment.patient.name }}</a></li>
-    {% empty %}
-            <li>No appointments available.</li>
-    {% endfor %}
-</ul>
+
+<!-- Search Form -->
+<div class="d-flex justify-content-center">
+    <form class="w-50" method="get" action="">
+        <div class="input-group my-3">
+            <input class="form-control" type="search" name="q" placeholder="Search by patient name" value="{{ request.GET.q }}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<!-- Appointments Table -->
+<div class="bg-light rounded p-3 mt-2 mb-2 mx-4">
+    <h3 class="fs-5 mb-3">All Appointments</h3>
+    <table class="table">
+        <thead>
+            <tr class="table-primary">
+                <th>#</th>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a class="link-primary link-underline-light link-underline-opacity-0 fw-bold" href="{% url 'patient_details' appointment.patient.id %}">{{ appointment.patient.name }}</a></td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>{{ appointment.reason }}</td>
+                    <td>{{ appointment.notes }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-success" href="{% url 'appointment_details' appointment.id %}">View</a>
+                        <a class="btn btn-sm btn-secondary" href="{% url 'edit_appointment' appointment.id %}">Edit</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'delete_appointment' appointment.id %}">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No appointments found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

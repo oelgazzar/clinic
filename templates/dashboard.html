@@ -1,8 +1,71 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Dashboard</h1>
-    <p>Total Patients: <a href="{% url 'patient_list' %}">{{ total_patients }}</a></p>
-    <p>Total Appointments: <a href="{% url 'appointment_list' %}">{{ total_appointments }}</a></p>
-    <p>Upcoming Appointments: <a href="{% url 'appointment_list' %}?from_date={% now 'Y-m-d'%}">{{ upcoming_appointments }}</a></p>
+<h2 class="mb-3">Dashboard</h2>
+
+<!-- Stat Cards -->
+<div class="row rounded bg-white py-5">
+    <div class="col-6">
+        <div class="card text-center">
+            <div class="card-header">
+                <h5 class="mb-0">Total Patients</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text"><a class="link-primary link-underline-opacity-0 fw-bold fs-3" href="{% url 'patient_list' %}">{{ total_patients }}</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card text-center">
+            <div class="card-header">
+                <h5 class="mb-0">Total Appointments</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text"><a class="link-primary link-underline-opacity-0 fw-bold fs-3" href="{% url 'appointment_list' %}">{{ total_appointments }}</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upcoming Appointments Table -->
+<h3 class="mt-4 mb-3">Upcoming Appointments</h3>
+<div class="rounded bg-white p-5">
+<table class="table">
+    <thead>
+        <tr class="table-primary">
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th>Notes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for appointment in upcoming_appointments %}
+            <tr>
+                <td><a class="link-primary link-underline-light link-underline-opacity-0 fw-bold" href="{% url 'patient_details' appointment.patient.id %}">{{ appointment.patient.name }}</a></td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>
+                <td>{{ appointment.reason }}</td>
+                <td>{{ appointment.notes }}</td>
+                <td>
+                    <a class="btn btn-sm btn-success" href="{% url 'appointment_details' appointment.id %}">View</a>
+                    <a class="btn btn-sm btn-secondary" href="{% url 'edit_appointment' appointment.id %}">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'delete_appointment' appointment.id %}">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No appointments found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<!-- Quick Actions-->
+<div class="d-flex mt-4">
+    <a class="btn btn-primary btn-sm me-2" href="{% url 'new_patient' %}">Add New Patient</a>
+    <a class="btn btn-success btn-sm" href="{% url 'new_appointment' %}">Schedule New Appointment</a>
 {% endblock %}

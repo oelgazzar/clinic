@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Appointment Details</h1>
-    <p><strong>Patient:</strong> <a href="{% url 'patient_details' appointment.patient.id %}">{{ appointment.patient.name }}</a></p>
-    <p><strong>Date:</strong> {{ appointment.date }}</p>
-    <p><strong>Time:</strong> {{ appointment.time }}</p>
-    <p><strong>Reason:</strong> {{ appointment.reason }}</p>
-    <p><strong>Notes:</strong> {{ appointment.notes }}</p>
-    <a href="{% url 'edit_appointment' appointment.id %}">Edit Appointment</a>
-    <a href="{% url 'delete_appointment' appointment.id %}">Delete Appointment</a>
-    <a href="{% url 'appointment_list' %}">Back to Appointments</a>
+<!-- header -->
+<div class="d-flex justify-content-between align-items-center  mb-3">
+    <h2 class="mb-3">Appointment Details</h2>
+    <div>
+        <a href="{% url 'edit_appointment' appointment.id %}"
+            class="btn btn-outline-primary">
+            Edit
+        </a>
+
+        <a href="{% url 'delete_appointment' appointment.id %}"
+            class="btn btn-outline-danger">
+            Delete
+        </a>
+    </div>
+</div>
+
+<!-- appointment details -->
+<p><strong>Patient:</strong> <a class="link-primary link-underline-opacity-" href="{% url 'patient_details' appointment.patient.id %}">{{ appointment.patient.name }}</a></p>
+<p><strong>Date:</strong> {{ appointment.date }}</p>
+<p><strong>Time:</strong> {{ appointment.time }}</p>
+<p><strong>Reason:</strong> {{ appointment.reason }}</p>
+<p><strong>Notes:</strong> {{ appointment.notes }}</p>
 {% endblock %}

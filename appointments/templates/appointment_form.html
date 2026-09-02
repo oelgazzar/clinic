@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ button_text }}</h1>
-    <form method="post">
+    <h1>New Appointment</h1>
+    <form class="w-25" method="post" novalidate>
         {% csrf_token %}
-       {{ form }}
-        <button type="submit">{{ button_text }}</button>
+       {% for field in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div class="text-danger">
+                        {% for error in field.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="row gx-2">
+            <button class="btn btn-primary btn-sm col me-1" type="submit">Save</button>
+            <a class="btn btn-outline-secondary btn-sm col ms-1" href="{% url 'appointment_list' %}">Cancel</a>
+        </div>
     </form>
 {% endblock %}
